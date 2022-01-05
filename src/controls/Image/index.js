@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { AtomicBlockUtils } from 'draft-js';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { AtomicBlockUtils } from "draft-js";
 
-import LayoutComponent from './Component';
+import LayoutComponent from "./Component";
 
 class ImageControl extends Component {
   static propTypes = {
@@ -15,10 +15,14 @@ class ImageControl extends Component {
 
   constructor(props) {
     super(props);
-    const { modalHandler } = this.props;
+
     this.state = {
       expanded: false,
     };
+  }
+
+  componentDidMount() {
+    const { modalHandler } = this.props;
     modalHandler.registerCallBack(this.expandCollapse);
   }
 
@@ -58,12 +62,12 @@ class ImageControl extends Component {
     }
     const entityKey = editorState
       .getCurrentContent()
-      .createEntity('IMAGE', 'MUTABLE', entityData)
+      .createEntity("IMAGE", "MUTABLE", entityData)
       .getLastCreatedEntityKey();
     const newEditorState = AtomicBlockUtils.insertAtomicBlock(
       editorState,
       entityKey,
-      ' '
+      " "
     );
     onChange(newEditorState);
     this.doCollapse();

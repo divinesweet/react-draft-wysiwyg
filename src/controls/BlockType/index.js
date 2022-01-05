@@ -16,15 +16,20 @@ class BlockType extends Component {
 
   constructor(props) {
     super(props);
-    const { editorState, modalHandler } = props;
+    const { editorState } = props;
     this.state = {
       expanded: false,
       currentBlockType: editorState
         ? getSelectedBlocksType(editorState)
         : 'unstyled',
     };
+   
+  }
+  componentDidMount() {
+    const { modalHandler } = this.props;
     modalHandler.registerCallBack(this.expandCollapse);
   }
+
 
   componentDidUpdate(prevProps) {
     const { editorState } = this.props;

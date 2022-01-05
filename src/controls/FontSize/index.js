@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
   toggleCustomInlineStyle,
   getSelectionCustomInlineStyle,
-} from 'draftjs-utils';
+} from "draftjs-utils";
 
-import LayoutComponent from './Component';
+import LayoutComponent from "./Component";
 
 export default class FontSize extends Component {
   static propTypes = {
@@ -18,13 +18,17 @@ export default class FontSize extends Component {
 
   constructor(props) {
     super(props);
-    const { editorState, modalHandler } = props;
+    const { editorState } = props;
     this.state = {
       expanded: undefined,
       currentFontSize: editorState
-        ? getSelectionCustomInlineStyle(editorState, ['FONTSIZE']).FONTSIZE
+        ? getSelectionCustomInlineStyle(editorState, ["FONTSIZE"]).FONTSIZE
         : undefined,
     };
+  }
+
+  componentDidMount() {
+    const { modalHandler } = this.props;
     modalHandler.registerCallBack(this.expandCollapse);
   }
 
@@ -33,7 +37,7 @@ export default class FontSize extends Component {
     if (editorState && editorState !== prevProps.editorState) {
       this.setState({
         currentFontSize: getSelectionCustomInlineStyle(editorState, [
-          'FONTSIZE',
+          "FONTSIZE",
         ]).FONTSIZE,
       });
     }
@@ -67,9 +71,9 @@ export default class FontSize extends Component {
     });
   };
 
-  toggleFontSize = fontSize => {
+  toggleFontSize = (fontSize) => {
     const { editorState, onChange } = this.props;
-    const newState = toggleCustomInlineStyle(editorState, 'fontSize', fontSize);
+    const newState = toggleCustomInlineStyle(editorState, "fontSize", fontSize);
     if (newState) {
       onChange(newState);
     }

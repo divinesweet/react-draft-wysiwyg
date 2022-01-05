@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
   toggleCustomInlineStyle,
   getSelectionCustomInlineStyle,
-} from 'draftjs-utils';
+} from "draftjs-utils";
 
-import LayoutComponent from './Component';
+import LayoutComponent from "./Component";
 
 export default class FontFamily extends Component {
   static propTypes = {
@@ -18,13 +18,17 @@ export default class FontFamily extends Component {
 
   constructor(props) {
     super(props);
-    const { editorState, modalHandler } = props;
+    const { editorState } = props;
     this.state = {
       expanded: undefined,
       currentFontFamily: editorState
-        ? getSelectionCustomInlineStyle(editorState, ['FONTFAMILY']).FONTFAMILY
+        ? getSelectionCustomInlineStyle(editorState, ["FONTFAMILY"]).FONTFAMILY
         : undefined,
     };
+  }
+
+  componentDidMount() {
+    const { modalHandler } = this.props;
     modalHandler.registerCallBack(this.expandCollapse);
   }
 
@@ -33,7 +37,7 @@ export default class FontFamily extends Component {
     if (editorState && editorState !== prevProps.editorState) {
       this.setState({
         currentFontFamily: getSelectionCustomInlineStyle(editorState, [
-          'FONTFAMILY',
+          "FONTFAMILY",
         ]).FONTFAMILY,
       });
     }
@@ -67,11 +71,11 @@ export default class FontFamily extends Component {
     });
   };
 
-  toggleFontFamily = fontFamily => {
+  toggleFontFamily = (fontFamily) => {
     const { editorState, onChange } = this.props;
     const newState = toggleCustomInlineStyle(
       editorState,
-      'fontFamily',
+      "fontFamily",
       fontFamily
     );
     if (newState) {

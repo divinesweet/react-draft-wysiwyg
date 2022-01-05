@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { getSelectedBlocksMetadata, setBlockData } from 'draftjs-utils';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { getSelectedBlocksMetadata, setBlockData } from "draftjs-utils";
 
-import LayoutComponent from './Component';
+import LayoutComponent from "./Component";
 
 export default class TextAlign extends Component {
   static propTypes = {
@@ -15,10 +15,14 @@ export default class TextAlign extends Component {
 
   constructor(props) {
     super(props);
-    const { modalHandler } = this.props;
+
     this.state = {
       currentTextAlignment: undefined,
     };
+  }
+
+  componentDidMount() {
+    const { modalHandler } = this.props;
     modalHandler.registerCallBack(this.expandCollapse);
   }
 
@@ -26,9 +30,8 @@ export default class TextAlign extends Component {
     const { editorState } = this.props;
     if (editorState !== prevProps.editorState) {
       this.setState({
-        currentTextAlignment: getSelectedBlocksMetadata(editorState).get(
-          'text-align'
-        ),
+        currentTextAlignment:
+          getSelectedBlocksMetadata(editorState).get("text-align"),
       });
     }
   }
@@ -61,13 +64,13 @@ export default class TextAlign extends Component {
     });
   };
 
-  addBlockAlignmentData = value => {
+  addBlockAlignmentData = (value) => {
     const { editorState, onChange } = this.props;
     const { currentTextAlignment } = this.state;
     if (currentTextAlignment !== value) {
-      onChange(setBlockData(editorState, { 'text-align': value }));
+      onChange(setBlockData(editorState, { "text-align": value }));
     } else {
-      onChange(setBlockData(editorState, { 'text-align': undefined }));
+      onChange(setBlockData(editorState, { "text-align": undefined }));
     }
   };
 

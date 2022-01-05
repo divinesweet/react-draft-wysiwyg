@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { EditorState } from 'draft-js';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { EditorState } from "draft-js";
 
-import LayoutComponent from './Component';
+import LayoutComponent from "./Component";
 
 export default class History extends Component {
   static propTypes = {
@@ -20,12 +20,15 @@ export default class History extends Component {
       undoDisabled: false,
       redoDisabled: false,
     };
-    const { editorState, modalHandler } = props;
+    const { editorState } = props;
     if (editorState) {
       state.undoDisabled = editorState.getUndoStack().size === 0;
       state.redoDisabled = editorState.getRedoStack().size === 0;
     }
     this.state = state;
+  }
+  componentDidMount() {
+    const { modalHandler } = this.props;
     modalHandler.registerCallBack(this.expandCollapse);
   }
 
@@ -48,7 +51,7 @@ export default class History extends Component {
     this.signalExpanded = !this.state.expanded;
   };
 
-  onChange = action => {
+  onChange = (action) => {
     const { editorState, onChange } = this.props;
     const newState = EditorState[action](editorState);
     if (newState) {

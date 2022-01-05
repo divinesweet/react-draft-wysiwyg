@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { RichUtils } from 'draft-js';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { RichUtils } from "draft-js";
 import {
   changeDepth,
   getBlockBeforeSelectedBlock,
   getSelectedBlock,
   isListBlock,
-} from 'draftjs-utils';
+} from "draftjs-utils";
 
-import LayoutComponent from './Component';
+import LayoutComponent from "./Component";
 
 export default class List extends Component {
   static propTypes = {
@@ -21,11 +21,15 @@ export default class List extends Component {
 
   constructor(props) {
     super(props);
-    const { editorState, modalHandler } = this.props;
+    const { editorState } = this.props;
     this.state = {
       expanded: false,
       currentBlock: editorState ? getSelectedBlock(editorState) : undefined,
     };
+  }
+
+  componentDidMount() {
+    const { modalHandler } = this.props;
     modalHandler.registerCallBack(this.expandCollapse);
   }
 
@@ -45,12 +49,12 @@ export default class List extends Component {
     this.signalExpanded = !this.state.expanded;
   };
 
-  onChange = value => {
-    if (value === 'unordered') {
-      this.toggleBlockType('unordered-list-item');
-    } else if (value === 'ordered') {
-      this.toggleBlockType('ordered-list-item');
-    } else if (value === 'indent') {
+  onChange = (value) => {
+    if (value === "unordered") {
+      this.toggleBlockType("unordered-list-item");
+    } else if (value === "ordered") {
+      this.toggleBlockType("ordered-list-item");
+    } else if (value === "indent") {
       this.adjustDepth(1);
     } else {
       this.adjustDepth(-1);
@@ -76,7 +80,7 @@ export default class List extends Component {
     });
   };
 
-  toggleBlockType = blockType => {
+  toggleBlockType = (blockType) => {
     const { onChange, editorState } = this.props;
     const newState = RichUtils.toggleBlockType(editorState, blockType);
     if (newState) {
@@ -84,7 +88,7 @@ export default class List extends Component {
     }
   };
 
-  adjustDepth = adjustment => {
+  adjustDepth = (adjustment) => {
     const { onChange, editorState } = this.props;
     const newState = changeDepth(editorState, adjustment, 4);
     if (newState) {
@@ -99,8 +103,8 @@ export default class List extends Component {
     if (
       !previousBlock ||
       !isListBlock(currentBlock) ||
-      previousBlock.get('type') !== currentBlock.get('type') ||
-      previousBlock.get('depth') < currentBlock.get('depth')
+      previousBlock.get("type") !== currentBlock.get("type") ||
+      previousBlock.get("depth") < currentBlock.get("depth")
     ) {
       return true;
     }
@@ -112,7 +116,7 @@ export default class List extends Component {
     return (
       !currentBlock ||
       !isListBlock(currentBlock) ||
-      currentBlock.get('depth') <= 0
+      currentBlock.get("depth") <= 0
     );
   };
 
@@ -121,10 +125,10 @@ export default class List extends Component {
     const { expanded, currentBlock } = this.state;
     const ListComponent = config.component || LayoutComponent;
     let listType;
-    if (currentBlock.get('type') === 'unordered-list-item') {
-      listType = 'unordered';
-    } else if (currentBlock.get('type') === 'ordered-list-item') {
-      listType = 'ordered';
+    if (currentBlock.get("type") === "unordered-list-item") {
+      listType = "unordered";
+    } else if (currentBlock.get("type") === "ordered-list-item") {
+      listType = "ordered";
     }
     const indentDisabled = this.isIndentDisabled();
     const outdentDisabled = this.isOutdentDisabled();
